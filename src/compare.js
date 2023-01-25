@@ -11,9 +11,9 @@ const compare = (obj1, obj2) => {
     } else if (!Object.hasOwn(obj2, key)) {
       acc.push(`  - ${key}: ${obj1[key]}\n`);
     } else if (obj1[key] !== obj2[key]) {
-      acc.push(`  - ${key}: ${obj1[key]} \n  + ${key}: ${obj2[key]}\n`);
+      acc.push(`  - ${key}: ${obj1[key]}\n  + ${key}: ${obj2[key]}\n`);
     } else {
-      acc.push(`    ${key}:${obj1[key]}\n`);
+      acc.push(`    ${key}: ${obj1[key]}\n`);
     }
     return acc;
   }, []);
