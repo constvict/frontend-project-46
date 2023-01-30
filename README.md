@@ -23,17 +23,17 @@ Gendiff is a CLI tool for comparing two files and display the difference
 
 ## Usage
  For help type command
-  ```sh
+  ```
   gendiff -h
   ```
  To use gendiff run following command with paths for files you want to compare
 
-  ```sh
+  ```
   gendiff <filepath1> <filepath2>
   ```
  You can specify the output format with the `-f` or `--format` option. The default output format is `stylish`
 
-  ```sh
+  ```
   gendiff <filepath1> <filepath2> -f [format]
   ```
 
