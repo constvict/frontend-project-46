@@ -11,6 +11,7 @@ const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 const excpectedResult = readFile('expected.txt');
+const excpectedResultPlain = readFile('plainExpected.txt');
 
 test('compare two flat json()', () => {
   const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
@@ -18,8 +19,13 @@ test('compare two flat json()', () => {
 });
 
 test('compare two flat yaml()', () => {
-  const result = genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'));
+  const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
   expect(result).toEqual(excpectedResult);
+});
+
+test('compare two flat json to plain()', () => {
+  const result = genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'plain');
+  expect(result).toEqual(excpectedResultPlain);
 });
 
 test('parsing unsupported file format', () => {
