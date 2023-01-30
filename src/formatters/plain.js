@@ -10,7 +10,7 @@ const stringifyObjectValue = (value) => {
   return value;
 };
 
-const plain = (diffTree, currentPath = []) => {
+const formatPlain = (diffTree, currentPath = []) => {
   const formatNode = (node) => {
     const updatedPath = currentPath.concat(node.key);
     const propertyPath = updatedPath.join('.');
@@ -23,7 +23,7 @@ const plain = (diffTree, currentPath = []) => {
       case 'changed':
         return `Property '${propertyPath}' was updated. From ${stringifyObjectValue(node.fromValue)} to ${stringifyObjectValue(node.toValue)}`;
       default:
-        return plain(node.children, updatedPath);
+        return formatPlain(node.children, updatedPath);
     }
   };
 
@@ -33,4 +33,4 @@ const plain = (diffTree, currentPath = []) => {
     .join('\n');
 };
 
-export default plain;
+export default formatPlain;

@@ -15,7 +15,7 @@ const stringify = (value, depth) => {
   return `{\n${lines}\n${indent(depth)}  }`;
 };
 
-const stylish = (diffTree) => {
+const formatStylish = (diffTree) => {
   const formatNode = (node, depth) => node.map(({
     status, key, value, fromValue, toValue, children,
   }) => {
@@ -41,4 +41,4 @@ const stylish = (diffTree) => {
   return `{\n${formatNode(diffTree, 1).join('\n')}\n}`;
 };
 
-export default stylish;
+export default formatStylish;
