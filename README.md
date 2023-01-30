@@ -7,8 +7,11 @@
 ### Github Actions:
 [![Actions Status](https://github.com/constvict/frontend-project-46/actions/workflows/main.yml/badge.svg)](https://github.com/constvict/frontend-project-46/actions/workflows/main.yml)
 
-### Compare two flay JSON files:
+### Compare two flat JSON files:
 [![asciicast](https://asciinema.org/a/NyAUEINyTYujOfVzbxpETmkQc.svg)](https://asciinema.org/a/NyAUEINyTYujOfVzbxpETmkQc)
 
-### Compare two flay YAML files:
+### Compare two flat YAML files:
 [![asciicast](https://asciinema.org/a/MoUCaA5wl3RD9uRUDb6pdmnVC.svg)](https://asciinema.org/a/MoUCaA5wl3RD9uRUDb6pdmnVC)
+
+### Stylish format:
+[![asciicast](https://asciinema.org/a/xVYxK4uFkzb0e7Lxg0ex0DuJx.svg)](https://asciinema.org/a/xVYxK4uFkzb0e7Lxg0ex0DuJx)
