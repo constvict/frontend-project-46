@@ -9,29 +9,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
-const excpectedResultStylish = readFile('stylishExpected.txt');
-const excpectedResultPlain = readFile('plainExpected.txt');
-const excpectedResultJson = readFile('jsonExpected.txt');
+const readFixture = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 
-test('compare two flat json()', () => {
-  const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
-  expect(result).toEqual(excpectedResultStylish);
-});
+const formats = ['json', 'yaml', 'yml'];
 
-test('compare two flat yaml()', () => {
-  const result = genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'));
-  expect(result).toEqual(excpectedResultStylish);
-});
+formats.forEach((format) => {
+  test(`test with ${format}`, () => {
+    const filepath1 = getFixturePath(`file1.${format}`);
+    const filepath2 = getFixturePath(`file2.${format}`);
 
-test('compare two flat json with plain format option()', () => {
-  const result = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'plain');
-  expect(result).toEqual(excpectedResultPlain);
-});
+    const expectedStylish = readFixture('expectedStylish.txt');
+    const expectedPlain = readFixture('expectedPlain.txt');
+    const expectedJSON = readFixture('expectedJSON.txt');
 
-test('compare two flat yaml with json format option()', () => {
-  const result = genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'json');
-  expect(result).toEqual(excpectedResultJson);
+    expect(genDiff(filepath1, filepath2)).toEqual(expectedStylish);
+    expect(genDiff(filepath1, filepath2, 'stylish')).toEqual(expectedStylish);
+    expect(genDiff(filepath1, filepath2, 'plain')).toEqual(expectedPlain);
+    expect(genDiff(filepath1, filepath2, 'json')).toEqual(expectedJSON);
+  });
 });
 
 test('parsing unsupported file format', () => {
