@@ -1,23 +1,23 @@
 import _ from 'lodash';
 
-const getDiffTree = (objectA, objectB) => {
-  const sortedKeys = _.sortBy(_.union(_.keys(objectA), _.keys(objectB)));
+const getDiffTree = (data1, data2) => {
+  const sortedKeys = _.sortBy(_.union(_.keys(data1), _.keys(data2)));
   return sortedKeys.map((key) => {
-    if (!Object.hasOwn(objectA, key)) {
-      return { status: 'added', key, value: objectB[key] };
+    let diffTree = {};
+    if (!Object.hasOwn(data1, key)) {
+      diffTree = { type: 'added', key, value: data2[key] };
+    } else if (!Object.hasOwn(data2, key)) {
+      diffTree = { type: 'removed', key, value: data1[key] };
+    } else if (_.isPlainObject(data1[key]) && _.isPlainObject(data2[key])) {
+      diffTree = { type: 'nested', key, children: getDiffTree(data1[key], data2[key]) };
+    } else if (_.isEqual(data1[key], data2[key])) {
+      diffTree = { type: 'equal', key, value: data1[key] };
+    } else {
+      diffTree = {
+        type: 'modified', key, dataValue1: data1[key], dataValue2: data2[key],
+      };
     }
-    if (!Object.hasOwn(objectB, key)) {
-      return { status: 'deleted', key, value: objectA[key] };
-    }
-    if (_.isPlainObject(objectA[key]) && _.isPlainObject(objectB[key])) {
-      return { status: 'nested', key, children: getDiffTree(objectA[key], objectB[key]) };
-    }
-    if (objectA[key] === objectB[key]) {
-      return { status: 'unchanged', key, value: objectA[key] };
-    }
-    return {
-      status: 'changed', key, fromValue: objectA[key], toValue: objectB[key],
-    };
+    return diffTree;
   });
 };
 

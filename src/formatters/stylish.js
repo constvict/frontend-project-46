@@ -16,25 +16,23 @@ const stringify = (value, depth) => {
 };
 
 const formatStylish = (diffTree) => {
-  const formatNode = (node, depth) => node.map(({
-    status, key, value, fromValue, toValue, children,
-  }) => {
-    switch (status) {
+  const formatNode = (node, depth) => node.map((data) => {
+    switch (data.type) {
       case 'nested':
-        return `${indent(depth)}  ${key}: {\n${formatNode(children, depth + 1).join('\n')}\n${indent(depth)}  }`;
+        return `${indent(depth)}  ${data.key}: {\n${formatNode(data.children, depth + 1).join('\n')}\n${indent(depth)}  }`;
       case 'added':
-        return `${indent(depth)}+ ${key}: ${stringify(value, depth)}`;
-      case 'deleted':
-        return `${indent(depth)}- ${key}: ${stringify(value, depth)}`;
-      case 'changed':
+        return `${indent(depth)}+ ${data.key}: ${stringify(data.value, depth)}`;
+      case 'removed':
+        return `${indent(depth)}- ${data.key}: ${stringify(data.value, depth)}`;
+      case 'modified':
         return (
-          `${indent(depth)}- ${key}: ${stringify(fromValue, depth)}\n`
-          + `${indent(depth)}+ ${key}: ${stringify(toValue, depth)}`
+          `${indent(depth)}- ${data.key}: ${stringify(data.dataValue1, depth)}\n`
+          + `${indent(depth)}+ ${data.key}: ${stringify(data.dataValue2, depth)}`
         );
-      case 'unchanged':
-        return `${indent(depth)}  ${key}: ${stringify(value, depth)}`;
+      case 'equal':
+        return `${indent(depth)}  ${data.key}: ${stringify(data.value, depth)}`;
       default:
-        throw new Error(`Invalid status name: ${status}`);
+        throw new Error(`Invalid type name: ${data.type}`);
     }
   });
 

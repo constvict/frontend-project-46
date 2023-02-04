@@ -12,20 +12,16 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const readFixture = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 
 const formats = ['json', 'yaml', 'yml'];
+const formatters = ['stylish', 'plain', 'json'];
 
-formats.forEach((format) => {
-  test(`test with ${format}`, () => {
-    const filepath1 = getFixturePath(`file1.${format}`);
-    const filepath2 = getFixturePath(`file2.${format}`);
-
-    const expectedStylish = readFixture('expectedStylish.txt');
-    const expectedPlain = readFixture('expectedPlain.txt');
-    const expectedJSON = readFixture('expectedJSON.txt');
-
-    expect(genDiff(filepath1, filepath2)).toEqual(expectedStylish);
-    expect(genDiff(filepath1, filepath2, 'stylish')).toEqual(expectedStylish);
-    expect(genDiff(filepath1, filepath2, 'plain')).toEqual(expectedPlain);
-    expect(genDiff(filepath1, filepath2, 'json')).toEqual(expectedJSON);
+describe.each(formatters)('%s formatter', (formatter) => {
+  formats.forEach((format) => {
+    test(`test with ${format}`, () => {
+      const filepath1 = getFixturePath(`file1.${format}`);
+      const filepath2 = getFixturePath(`file2.${format}`);
+      const expected = readFixture(`expected_${formatter}.txt`);
+      expect(genDiff(filepath1, filepath2, formatter)).toEqual(expected);
+    });
   });
 });
 

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const stringifyObjectValue = (value) => {
+const stringify = (value) => {
   if (_.isObject(value)) {
     return '[complex value]';
   }
@@ -15,20 +15,20 @@ const formatPlain = (diffTree, currentPath = []) => {
     const updatedPath = currentPath.concat(node.key);
     const propertyPath = updatedPath.join('.');
 
-    switch (node.status) {
+    switch (node.type) {
       case 'added':
-        return `Property '${propertyPath}' was added with value: ${stringifyObjectValue(node.value)}`;
-      case 'deleted':
+        return `Property '${propertyPath}' was added with value: ${stringify(node.value)}`;
+      case 'removed':
         return `Property '${propertyPath}' was removed`;
-      case 'changed':
-        return `Property '${propertyPath}' was updated. From ${stringifyObjectValue(node.fromValue)} to ${stringifyObjectValue(node.toValue)}`;
+      case 'modified':
+        return `Property '${propertyPath}' was updated. From ${stringify(node.dataValue1)} to ${stringify(node.dataValue2)}`;
       default:
         return formatPlain(node.children, updatedPath);
     }
   };
 
   return diffTree
-    .filter(({ status }) => status !== 'unchanged')
+    .filter(({ type }) => type !== 'equal')
     .flatMap(formatNode)
     .join('\n');
 };
