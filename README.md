@@ -5,6 +5,10 @@ Gendiff is a CLI tool for comparing two files and display the difference
 
 ### Prerequisites
 
+* Node js 
+  ```sh
+  Node js 16+ version
+  ```
 * npm
   ```sh
   npm install npm@latest -g
